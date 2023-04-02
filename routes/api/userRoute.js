@@ -1,16 +1,11 @@
-const express = require("express");
-const db = require("./config/db");
-const routes = require("./routes");
+const router = require('express').Router();
+const userController = require('../../controllers/userController');
 
-const PORT = process.env.PORT || 3001;
-const app = express();
+const  { newUser, editUser, deleteUser, getUsers, getOneUser, addFriend, removeFriend } = userController();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(routes);
+router.route('/userID')
+.get(getOneUser)
+.put(editUser)
+.delete(deleteUser);
 
-db.once("open", () => {
-  app.listen(PORT, () => {
-    console.log(`API server running on port ${PORT}!`);
-  });
-});
+module.exports = router;
